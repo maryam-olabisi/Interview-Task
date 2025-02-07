@@ -18,12 +18,20 @@
       <h1>Meteo Office</h1>
       <label class="form-label" for="locations">Locations</label>
       <select class="form-select" name="locations" id="locations"></select>
+      <br/>
+      <div id="metrics">Metrics: <br/>
+        <!-- <input type="checkbox" id="" -->
+      </div>
     </header>
     <main>
+      <!-- add the spinner with style.css loading class -->
+      <div id="spinner" class="loading" style="display: none;">
+      </div>
       <div id="table-container"></div>
     </main>
 
-    <script type="module" src="index.js"></script>
+    <script src="controllers/tableController.js"></script>
+    <script src="index.js"></script>
     <!-- Added script for main functionality -->
   </body>
 </html>

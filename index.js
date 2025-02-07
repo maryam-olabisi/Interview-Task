@@ -1,6 +1,6 @@
 //index.js
 
-import { TableController } from "./controllers/tableController.js";
+//import { TableController } from "./controllers/tableController.js";
 
 const tableController = new TableController();
 
@@ -13,6 +13,15 @@ const LOCS = {
   Wakefield: { lat: 53.6833, long: -1.4977 },
   Leeds: { lat: 53.7965, long: -1.5478 },
 };
+
+const METRICS = {
+  Temperature: "temperature_2m",
+  Precipitation: "precipitation_probability",
+  Humidity: "relative_humidity_2m",
+  Rain: "rain",
+  Visibility: "visibility",
+  Wind: "wind_speed_10m",
+}
 
 function getLocationSelect() {
   return document.getElementById("locations");
@@ -29,24 +38,57 @@ function setLocations() {
   locationSelect.value = "";
 }
 
+function setMetrics() {
+  const _metrics = document.getElementById("metrics");
+
+  for (const [key, value] of Object.entries(METRICS)) {
+    _check = document.createElement("input");
+    _check.type = "checkbox";
+    _check.id = key;
+    _check.value = value;
+    _check.classList = "metric-check"
+    if (key == "Precipitation" || key == "Temperature" ) {
+      _check.checked = true;
+    }
+    _label = document.createElement("label");
+    _label.innerHTML = `&nbsp;${key}`;
+
+    // _check.addEventListener("click", updateMetrics());
+
+    _metrics.appendChild(_check);
+    _metrics.appendChild(_label);
+    _metrics.appendChild(document.createElement("br"));
+  }
+}
+
 function onSelectChange(e) {
+  // show the spinner
+  document.getElementById("spinner").style.display = "inline-block";
   // select coordinates based on select value
   const coords = LOCS[e.target.value];
 
   // api call to https://open-meteo.com/en/docs
   fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.long}&hourly=temperature_2m`
+    `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.long}&hourly=temperature_2m,precipitation_probability,relative_humidity_2m,rain,visibility,wind_speed_10m`
   )
     .then((response) => {
       return response.json();
     })
     .then((data) => {
+      // hide spiiner
+      console.log(data);
+      document.getElementById("spinner").style.display = "none";
       tableController.renderData(data);
     });
 }
 
+function updateMetrics() {
+  console.log('here');
+}
+
 function init() {
   setLocations();
+  setMetrics();
 
   const locationSelect = getLocationSelect();
   locationSelect.addEventListener("change", onSelectChange);
@@ -54,4 +96,5 @@ function init() {
   tableController.renderPlaceholder();
 }
 
-// init();
+// uncomment this to load 
+init();
