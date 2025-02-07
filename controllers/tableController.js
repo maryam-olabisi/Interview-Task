@@ -81,7 +81,7 @@ class TableController {
   // get selected metrics
   getSelectedMetrics() {
     const _s = document.querySelectorAll(".metric-check:checked");
-    console.log([..._s]);
+    // console.log([..._s]);
     return [..._s].map(b => b.value);
   }
 
@@ -129,7 +129,6 @@ class TableController {
     // add an onclick function to nav-link
     // use this._selectedDay to determine the active tab
     const selectedMetrics = this.getSelectedMetrics();
-    console.log(selectedMetrics);
     return `
             <ul class="nav nav-tabs">
                 ${Object.keys(processedData)

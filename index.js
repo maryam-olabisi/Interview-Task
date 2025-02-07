@@ -76,14 +76,9 @@ function onSelectChange(e) {
     })
     .then((data) => {
       // hide spiiner
-      console.log(data);
       document.getElementById("spinner").style.display = "none";
       tableController.renderData(data);
     });
-}
-
-function updateMetrics() {
-  console.log('here');
 }
 
 function init() {
